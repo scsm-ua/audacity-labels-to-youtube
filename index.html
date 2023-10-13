@@ -32,7 +32,7 @@
 		function convert(input) {
 			var rows = input.split(/[\r\n]/).map(function(r) { return r.trim() }).filter(Boolean);
 			var rows_parsed = rows.map(function(r) {
-			    var items = r.split(/\t/);
+			    var items = r.split(/[\t\s]/);
 			    
 
 			    var total_seconds = Math.round(parseFloat(items[0]));
@@ -44,7 +44,7 @@
 
 			    var time = '(' + (hours ? hours + ':' : '') + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0') + ')';
 
-			    return items[2] + ' ' + time;
+			    return items.slice(2).join(' ') + ' ' + time;
 			});
 
 			return rows_parsed.join('\n');

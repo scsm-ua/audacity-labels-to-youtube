@@ -1,0 +1,55 @@
+<head>
+	<style>
+		textarea {
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<div>
+			Paste Audacity labels export here:
+		</div>
+		<textarea rows="20" id="in"></textarea>
+	</div>
+	<div>
+		
+	</div>
+	<div>
+		<div>
+			<br>
+			Converted Youbute labels:
+		</div>
+		<textarea rows="20" id="out"></textarea>
+	</div>
+	<script>
+
+		function convert(input) {
+			var rows = input.split(/[\r\n]/).map(function(r) { return r.trim() }).filter(Boolean);
+			var rows_parsed = rows.map(function(r) {
+			    var items = r.split(/\t/);
+			    
+
+			    var total_seconds = Math.round(parseFloat(items[0]));
+
+			    var hours = Math.floor(total_seconds / 3600);
+			    var seconds_wo_hours = total_seconds - hours * 3600;
+			    var minutes = Math.floor(seconds_wo_hours / 60);
+			    var seconds = total_seconds % 60;
+
+			    var time = '(' + (hours ? hours + ':' : '') + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0') + ')';
+
+			    return items[2] + ' ' + time;
+			});
+
+			return rows_parsed.join('\n');
+		}
+
+		var tin = document.getElementById("in");
+		var tout = document.getElementById("out")
+
+		tin.addEventListener('keyup', function() {
+			tout.value = convert(tin.value);
+		});
+	</script>
+</body>

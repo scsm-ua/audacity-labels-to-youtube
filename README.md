@@ -1,6 +1,8 @@
 # audacity-labels-to-youtube
 
-Convert labels from Audacity export txt to Youtube format.
+Converts labels from Audacity export txt to Youtube format.
+
+Online converter link - [https://scsm-ua.github.io/audacity-labels-to-youtube/](https://scsm-ua.github.io/audacity-labels-to-youtube/)
 
 Example input (tab separated columns):
 

@@ -24,12 +24,19 @@
 		<textarea rows="20" id="out"></textarea>
 	</div>
 	<div>
+		<div>
+			<br>
+			Converted Youbute labels (with custom formatting):
+		</div>
+		<textarea rows="20" id="out2"></textarea>
+	</div>
+	<div>
 		<br>
 		github: <a href="https://github.com/scsm-ua/audacity-labels-to-youtube">https://github.com/scsm-ua/audacity-labels-to-youtube</a>
 	</div>
 	<script>
 
-		function convert(input) {
+		function convert(input, template) {
 			var rows = input.split(/[\r\n]/).map(function(r) { return r.trim() }).filter(Boolean);
 			var rows_parsed = rows.map(function(r) {
 			    var items = r.split(/[\t\s]/);
@@ -42,9 +49,10 @@
 			    var minutes = Math.floor(seconds_wo_hours / 60);
 			    var seconds = total_seconds % 60;
 
-			    var time = '(' + (hours ? hours + ':' : '') + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0') + ')';
+			    var time = (hours ? hours + ':' : '') + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+				var title = items.slice(2).join(' ');
 
-			    return items.slice(2).join(' ') + ' ' + time;
+			    return template.replace(/%time%/gi, time).replace(/%title%/gi, title);
 			});
 
 			return rows_parsed.join('\n');
@@ -52,9 +60,11 @@
 
 		var tin = document.getElementById("in");
 		var tout = document.getElementById("out")
+		var tout2 = document.getElementById("out2")
 
 		tin.addEventListener('keyup', function() {
-			tout.value = convert(tin.value);
+			tout.value = convert(tin.value, "%time% %title%");
+			tout2.value = convert(tin.value, "<li><a>(%time%) %title%</a></li>");
 		});
 	</script>
 </body>
